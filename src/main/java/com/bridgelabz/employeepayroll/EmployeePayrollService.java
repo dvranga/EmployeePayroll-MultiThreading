@@ -1,7 +1,9 @@
 package com.bridgelabz.employeepayroll;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class EmployeePayrollService {
 
@@ -57,8 +59,10 @@ public class EmployeePayrollService {
 
     public void addEmployeesToPayroll(List<EmployeePayrollData> employeePayrollDataList) {
         employeePayrollDataList.forEach(employeePayrollData -> {
+            System.out.println(employeePayrollData.name+" is adding");
             this.addEmployeeToPayroll(employeePayrollData.name, employeePayrollData.salary,
                     employeePayrollData.startDate, employeePayrollData.gender);
+            System.out.println(employeePayrollData.name+" added");
         });
     }
 
@@ -71,4 +75,28 @@ public class EmployeePayrollService {
             return new EmployeePayrollFileIOService().countEntries();
         return employeePayrollList.size();
     }
+
+    public void addEmployeeToPayRollWIthThreads(List<EmployeePayrollData> employeePayrollDataList) {
+        Map<Integer, Boolean> employeeAdditionStatus = new HashMap<Integer, Boolean>();
+        employeePayrollDataList.forEach(employeePayrollData -> {
+            Runnable task = () -> {
+                employeeAdditionStatus.put(employeePayrollData.hashCode(), false);
+                System.out.println("Employee Adding:" + Thread.currentThread().getName());
+                this.addEmployeeToPayroll(employeePayrollData.name, employeePayrollData.salary,
+                        employeePayrollData.startDate, employeePayrollData.gender);
+                employeeAdditionStatus.put(employeePayrollData.hashCode(), true);
+                System.out.println("Employee Added: " + Thread.currentThread().getName());
+            };
+            Thread thread = new Thread(task, employeePayrollData.name);
+            thread.start();
+        });
+        while (employeeAdditionStatus.containsValue(false)) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+            }
+        }
+        System.out.println(employeePayrollDataList);
+    }
+
 }
