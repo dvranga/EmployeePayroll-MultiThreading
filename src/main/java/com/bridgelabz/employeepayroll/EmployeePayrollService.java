@@ -122,4 +122,28 @@ public class EmployeePayrollService {
         System.out.println(employeePayrollDataList);
     }
 
+    public void updateSalariesOfMultipleEmployees(List<EmployeePayrollData> EmpList) {
+        Runnable task= () ->  {
+            for (EmployeePayrollData emp:EmpList) {
+                employeePayrollDBService.updateSalariesOfMultipleEmployees(emp);
+            }
+        };
+        Thread thread=new Thread(task);
+        thread.start();
+        while(EmpList.isEmpty()) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public boolean checkEmployeeInSyncWithDB(String name) {
+        List<EmployeePayrollData> employeePayrollData = employeePayrollDBService.getEmployeePayrollData(name);
+        System.out.println(employeePayrollData.get(0).name+" *");
+        boolean equals = employeePayrollData.get(0).name.equals(name);
+        return equals;
+
+    }
+
 }

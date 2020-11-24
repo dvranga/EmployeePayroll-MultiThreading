@@ -3,7 +3,9 @@ package com.bridgelabz.employeepayroll;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class EmployeePayrollDBService {
 
@@ -193,5 +195,36 @@ public class EmployeePayrollDBService {
         }
         return employeePayrollData;
 
+    }
+
+    public void updateSalariesOfMultipleEmployees(EmployeePayrollData employeeObj) {
+        Map<Integer,Boolean> addStatus = new HashMap<>();
+        Runnable task = ()->{
+            addStatus.put(employeeObj.hashCode(),false);
+            this.updateSalaryOfEmployee(employeeObj.name,employeeObj.salary);
+            addStatus.put(employeeObj.hashCode(),true);
+        };
+        Thread thread=new Thread(task,employeeObj.name);
+        thread.start();
+        while(addStatus.containsValue(false)) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private int updateSalaryOfEmployee(String name, double salary) {
+        String query = "UPDATE employee_payroll SET salary = ? WHERE name = ?";
+        try (Connection connection = this.getConnection();) {
+            PreparedStatement preparedStatementUpdate = connection.prepareStatement(query);
+            preparedStatementUpdate.setDouble(1, salary);
+            preparedStatementUpdate.setString(2, name);
+            return preparedStatementUpdate.executeUpdate();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+        return 0;
     }
 }

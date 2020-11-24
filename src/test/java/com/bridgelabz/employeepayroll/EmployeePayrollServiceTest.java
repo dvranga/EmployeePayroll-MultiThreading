@@ -61,4 +61,20 @@ public class EmployeePayrollServiceTest {
         System.out.println("Duration with thread: " + Duration.between(ThreadStart, ThreadEnd));
         Assert.assertEquals(14, employeePayrollService.countEntries(DB_IO));
     }
+
+    @Test
+    public void givenMultipleSalaries_ShouldUpdateForMultipleEmployeesAndSyncWithDB() {
+        EmployeePayrollData[] arrayOfEmp = {
+                new EmployeePayrollData(1, "Bill", 1100000.0),
+                new EmployeePayrollData(2, "Terisa", 21000000.0),
+                new EmployeePayrollData(3, "Charlie", 32000000.0),
+                new EmployeePayrollData(4, "Mark", 40000100.0)
+        };
+        Instant start = Instant.now();
+        employeePayrollService.updateSalariesOfMultipleEmployees(Arrays.asList(arrayOfEmp));
+        Instant end = Instant.now();
+        System.out.println("Duration With Thread: "+java.time.Duration.between(start, end));
+        boolean result = employeePayrollService.checkEmployeeInSyncWithDB("Mark");
+        Assert.assertTrue(result);
+    }
 }

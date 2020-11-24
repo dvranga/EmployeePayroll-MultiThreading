@@ -42,4 +42,15 @@ public class EmployeePayrollData {
     public int hashCode() {
         return Objects.hash(name,gender,salary,startDate);
     }
+
+    @Override
+    public String toString() {
+        return "EmployeePayrollData{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", salary=" + salary +
+                ", gender='" + gender + '\'' +
+                ", startDate=" + startDate +
+                '}';
+    }
 }
