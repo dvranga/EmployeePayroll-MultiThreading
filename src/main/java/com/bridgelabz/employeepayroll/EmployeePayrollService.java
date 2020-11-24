@@ -41,21 +41,12 @@ public class EmployeePayrollService {
                 .orElse(null);
     }
 
-    public boolean checkEmployeeInSyncWithDB(String name) {
-        List<EmployeePayrollData> employeePayrollData = employeePayrollDBService.getEmployeePayrollData(name);
-        boolean equals = employeePayrollData.get(0).equals(getEmployeePayrollData(name));
-        return equals;
 
+    public long countEntries(IOService ioService) {
+        if (ioService.equals(IOService.FILE_IO))
+            return new EmployeePayrollFileIOService().countEntries();
+        return employeePayrollList.size();
     }
-
-    public List<EmployeePayrollData> readEmployeePayrollForDateRange(IOService ioService,
-                                                                     LocalDate startDate, LocalDate endDate) {
-        if (ioService.equals(IOService.DB_IO)) {
-            return employeePayrollDBService.getEmployeePayrollForDateRange(startDate, endDate);
-        }
-        return null;
-    }
-
 
     public void addEmployeesToPayroll(List<EmployeePayrollData> employeePayrollDataList) {
         employeePayrollDataList.forEach(employeePayrollData -> {
@@ -68,12 +59,6 @@ public class EmployeePayrollService {
 
     public void addEmployeeToPayroll(String name, double salary, LocalDate startDate, String gender) {
         employeePayrollList.add(employeePayrollDBService.addEmployeeToPayroll(name, salary, startDate, gender));
-    }
-
-    public long countEntries(IOService ioService) {
-        if (ioService.equals(IOService.FILE_IO))
-            return new EmployeePayrollFileIOService().countEntries();
-        return employeePayrollList.size();
     }
 
     public void addEmployeeToPayRollWIthThreads(List<EmployeePayrollData> employeePayrollDataList) {
@@ -99,6 +84,42 @@ public class EmployeePayrollService {
         System.out.println(employeePayrollDataList);
     }
 
+    public void addEmployeesToBothTables(List<EmployeePayrollData> employeePayrollDataList) {
+        employeePayrollDataList.forEach(employeePayrollData -> {
+            System.out.println(employeePayrollData.name+" is adding");
+            this.addEmployeeToBothTables(employeePayrollData.name, employeePayrollData.salary,
+                    employeePayrollData.startDate, employeePayrollData.gender);
+            System.out.println(employeePayrollData.name+" added");
+        });
+    }
 
+    public void addEmployeeToBothTables(String name, double salary, LocalDate startDate, String gender) {
+        employeePayrollList.add(employeePayrollDBService.addEmployeeToBothTables(name, salary, startDate, gender));
+    }
+
+
+
+    public void addEmployeeToBothTablesWIthThreads(List<EmployeePayrollData> employeePayrollDataList) {
+        Map<Integer, Boolean> employeeAdditionStatus = new HashMap<Integer, Boolean>();
+        employeePayrollDataList.forEach(employeePayrollData -> {
+            Runnable task = () -> {
+                employeeAdditionStatus.put(employeePayrollData.hashCode(), false);
+                System.out.println("Employee Adding:" + Thread.currentThread().getName());
+                this.addEmployeeToBothTables(employeePayrollData.name, employeePayrollData.salary,
+                        employeePayrollData.startDate, employeePayrollData.gender);
+                employeeAdditionStatus.put(employeePayrollData.hashCode(), true);
+                System.out.println("Employee Added: " + Thread.currentThread().getName());
+            };
+            Thread thread = new Thread(task, employeePayrollData.name);
+            thread.start();
+        });
+        while (employeeAdditionStatus.containsValue(false)) {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+            }
+        }
+        System.out.println(employeePayrollDataList);
+    }
 
 }

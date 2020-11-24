@@ -4,6 +4,9 @@
     <list default="true" id="774c447b-efad-407d-badb-caf911513c7a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/bridgelabz/employeepayroll/EmployeePayrollDBService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bridgelabz/employeepayroll/EmployeePayrollDBService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bridgelabz/employeepayroll/EmployeePayrollFileIOService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bridgelabz/employeepayroll/EmployeePayrollFileIOService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bridgelabz/employeepayroll/EmployeePayrollService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bridgelabz/employeepayroll/EmployeePayrollService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/bridgelabz/employeepayroll/EmployeePayrollServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/bridgelabz/employeepayroll/EmployeePayrollServiceTest.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -45,7 +48,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.EmployeePayrollServiceTest.givenMultipleEmployess_ShouldAddIntoTheBothTheTablesUsingThreads">
     <configuration name="EmployeePayrollServiceTest.given6Employees_WhenAddedToDB_ShouldMatchEmployeeEntries" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="employeePayrollThread" />
       <extension name="coverage">
@@ -62,8 +65,25 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="EmployeePayrollServiceTest.givenMultipleEmployess_ShouldAddIntoTheBothTheTablesUsingThreads" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="employeePayrollThread" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.bridgelabz.employeepayroll.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.bridgelabz.employeepayroll" />
+      <option name="MAIN_CLASS_NAME" value="com.bridgelabz.employeepayroll.EmployeePayrollServiceTest" />
+      <option name="METHOD_NAME" value="givenMultipleEmployess_ShouldAddIntoTheBothTheTablesUsingThreads" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.EmployeePayrollServiceTest.givenMultipleEmployess_ShouldAddIntoTheBothTheTablesUsingThreads" />
         <item itemvalue="JUnit.EmployeePayrollServiceTest.given6Employees_WhenAddedToDB_ShouldMatchEmployeeEntries" />
       </list>
     </recent_temporary>
@@ -79,7 +99,7 @@
       <option name="presentableId" value="Default" />
       <updated>1606198943544</updated>
       <workItem from="1606198956698" duration="2573000" />
-      <workItem from="1606232400299" duration="12609000" />
+      <workItem from="1606232400299" duration="14262000" />
     </task>
     <servers />
   </component>
