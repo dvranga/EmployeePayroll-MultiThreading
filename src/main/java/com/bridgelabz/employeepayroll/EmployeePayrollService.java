@@ -70,7 +70,7 @@ public class EmployeePayrollService {
         employeePayrollList.add(employeePayrollDBService.addEmployeeToPayroll(name, salary, startDate, gender));
     }
 
-    public long countEnteries(IOService ioService) {
+    public long countEntries(IOService ioService) {
         if (ioService.equals(IOService.FILE_IO))
             return new EmployeePayrollFileIOService().countEntries();
         return employeePayrollList.size();
@@ -92,11 +92,13 @@ public class EmployeePayrollService {
         });
         while (employeeAdditionStatus.containsValue(false)) {
             try {
-                Thread.sleep(100);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
             }
         }
         System.out.println(employeePayrollDataList);
     }
+
+
 
 }
